@@ -8,9 +8,11 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
 {
     [TextArea] public string[] m_introtexts;
     [TextArea] public string[] m_texts;
+    [TextArea] public string[] m_nametexts;
+    [TextArea] public string[] m_flowertexts;
     public TextMeshProUGUI m_textUI;
     [SerializeField] int m_textIndex;
-    [SerializeField] int m_itemtextIndex;
+    public int m_itemtextIndex;
     [SerializeField] ItemInteract m_item;
     public bool m_isDaloging;
     public bool m_introDialogFin;
@@ -50,35 +52,22 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
             }
         }
     }
+    public void ShowText()
+    {
+        m_textUI.text = m_texts[m_itemtextIndex];
+    }
     public void FlowerText()
     {
-        if(m_item.m_getFlower)
+        for (int i = 0; i < m_flowertexts.Length; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && m_itemtextIndex <= 3)
-            {
-                m_itemtextIndex = 0;
-                m_textUI.text = m_texts[m_itemtextIndex];
-                m_textUI.gameObject.SetActive(true);
-                m_itemtextIndex++;
-            }
-            if(m_itemtextIndex > 3)
-            {
-                m_textUI.gameObject.SetActive(false);
-            }
+            m_textUI.text = m_flowertexts[i];
         }
     }
     public void NameTagText()
     {
-        if (m_item.m_getNameTag)
+        for (int i = 0; i < m_flowertexts.Length; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                for (int i = 3; i < 6; i++)
-                {
-                    m_textUI.text = m_texts[i];
-                    m_textUI.gameObject.SetActive(true);
-                }
-            }
+            m_textUI.text = m_nametexts[i];
         }
     }
 }
