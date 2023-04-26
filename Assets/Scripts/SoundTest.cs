@@ -13,7 +13,7 @@ public class SoundTest : MonoBehaviour
         m_audio.clip = m_clip;
         m_audio.playOnAwake = false;
         m_audio.loop = true;
-        Invoke("Play", 3f);
+        Invoke("Play", 0.0f);
     }
     IEnumerator Coroutin_BGM()
     {
@@ -26,10 +26,5 @@ public class SoundTest : MonoBehaviour
     void Play()
     {
         m_audio.Play();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

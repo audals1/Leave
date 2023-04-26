@@ -12,16 +12,18 @@ public class SoundManager : DontDestroy<SoundManager>
     }
     public enum ClipBGM
     {
-        dragon_flight,
+        creep,
         Max
     }
     public enum ClipSFX
     {
-        get_coin,
-        get_gem,
-        get_invincible,
-        get_item,
-        mon_die,
+        DoorOpen,
+        GhostBreath,
+        GhostLowBreath,
+        GhostLowSound,
+        GhostLowSound2,
+        GhostScream,
+        GhostWisper,
         Max
     }
     [SerializeField]
