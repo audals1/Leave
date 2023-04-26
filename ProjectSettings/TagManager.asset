@@ -5,15 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
-  - Item
+  - Ground
+  - Interact
+  - Flower
+  - Nametag
+  - Handflash
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 

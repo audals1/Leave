@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float m_speed = 10f;
-    public float m_runSpd = 20f;
+    public float m_speed = 5f;
+    public float m_runSpd = 10f;
     Vector3 m_dir;
     Rigidbody m_rigid;
     // Start is called before the first frame update
@@ -19,11 +19,11 @@ public class Player : MonoBehaviour
     }
     void Move()
     {
-        if(Dialog.Instance.m_isDalogFin)
+        if(GameManager.Instance.m_introEventFin && Dialog.Instance.m_introDialogFin)
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-            if(Input.GetKeyDown(KeyCode.LeftShift))
+            if(Input.GetKey(KeyCode.LeftShift))
             {
                 m_dir = new Vector3(h, 0, v) * m_runSpd * Time.deltaTime;
             }

@@ -13,12 +13,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         StartCoroutine("Croutine_Intro");
     }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-    }
     IEnumerator Croutine_Intro()
     {
         //´«±ôºýÀÓ
@@ -37,5 +31,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         yield return new WaitForSeconds(0.2f);
         m_fadeImg.gameObject.SetActive(false);
         m_introEventFin = true;
+    }
+    IEnumerator Coroutin_IntroDialog()
+    {
+        yield return null;
+        Dialog.Instance.ShowIntroText(0);
     }
 }

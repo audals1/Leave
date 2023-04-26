@@ -18,7 +18,7 @@ public class SoundTest : MonoBehaviour
     IEnumerator Coroutin_BGM()
     {
         yield return new WaitForSeconds(3.5f);
-        if (Dialog.Instance.m_isDalogFin)
+        if (Dialog.Instance.m_introDialogFin)
         {
             m_audio.Play();
         }

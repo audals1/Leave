@@ -23,10 +23,10 @@ public class Monster : MonoBehaviour
         Max
     };
 
-    protected float m_idletime; //시간
-    protected float m_idleduration = 2f; //행동개시 대기시간
-    public float m_detectDist = 10f; //플레이어 인식 가능 거리
-    protected float m_attackDist = 0.1f;
+    public float m_idletime; //시간
+    protected float m_idleduration = 1f; //행동개시 대기시간
+    [SerializeField] float m_detectDist = 10f; //플레이어 인식 가능 거리
+    protected float m_attackDist = 1f;
     protected bool m_isPatrol;
 
     [SerializeField] WayPoint[] m_wayPoints;
@@ -79,8 +79,11 @@ public class Monster : MonoBehaviour
 
     protected virtual void SetIdle(float time)
     {
+        m_navAgent.isStopped = true;
+        m_navAgent.ResetPath();
         m_isPatrol = false;
         SetState(MonsterState.Idle);
+        m_idletime = m_idleduration - time;
     }
 
     IEnumerator Coroutine_SerchTarget()
@@ -101,17 +104,19 @@ public class Monster : MonoBehaviour
         {
             case MonsterState.Idle:
                 m_idletime += Time.deltaTime;
-                if(m_idletime >= m_idleduration)
+                if(m_idletime >= m_idleduration) //행동개시
                 {
-                    //행동개시
                     if(FindTarget(m_player.transform.position)) 
                     {
-                        Debug.Log("플레이어인식");
+                        if(CheckArea(m_player.transform.position, 2f))
+                        {
+                            Debug.Log("공격전환");
+                            SetState(MonsterState.Attack);
+                            return;
+                        }
                         SetState(MonsterState.Chase);
-                        m_navAgent.isStopped = false;
                         StartCoroutine("Coroutine_SerchTarget");
                         m_navAgent.stoppingDistance = m_attackDist;
-                        Debug.Log("공격거리도달");
                     }
                     else // 주변에 주인공 없음
                     {
@@ -155,22 +160,21 @@ public class Monster : MonoBehaviour
             case MonsterState.Chase:
                 if(FindTarget(m_player.transform.position))
                 {
-                    if(CheckArea(m_player.transform.position, m_detectDist * 0.5f))
+                    if(CheckArea(m_player.transform.position, m_attackDist * 2))
                     {
-                        SetIdle(1f);
+                        SetState(MonsterState.Attack);
                     }
                 }
                 else //추격중에 플레이어 놓침
                 {
-                    Debug.Log("추격중 놓침");
-                    //m_navAgent.SetDestination(transform.position + Random.Range())
+                    Debug.Log("주인공 튐");
+                    SetIdle(1f);
                 }
 
                 break;
 
             case MonsterState.Attack:
-                //공격애니메이션
-
+                SetIdle(2f);
                 break;
             
             default:

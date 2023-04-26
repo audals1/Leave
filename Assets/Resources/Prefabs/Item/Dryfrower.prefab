@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5885412004513768248}
   m_Layer: 0
   m_Name: Dryfrower
-  m_TagString: Item
+  m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

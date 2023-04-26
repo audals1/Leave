@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 596503503}
   m_Layer: 0
   m_Name: Ghost(stick)
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -322,7 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66842c3059043d4d88ac4859b7b1152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_detectDist: 10
+  m_idletime: 0
+  m_detectDist: 20
   m_wayPoints:
   - {fileID: 0}
   - {fileID: 0}
