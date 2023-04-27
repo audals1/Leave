@@ -9,6 +9,7 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
     [TextArea] public string[] m_introtexts;
     [TextArea] public string[] m_nametexts;
     [TextArea] public string[] m_flowertexts;
+    [TextArea] public string[] m_flashtexts;
     public TextMeshProUGUI m_textUI;
     [SerializeField] int m_textIndex;
     public int m_itemtextIndex;

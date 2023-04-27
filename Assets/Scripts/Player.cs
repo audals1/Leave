@@ -26,12 +26,16 @@ public class Player : MonoBehaviour
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-            if(Input.GetKey(KeyCode.LeftShift))
+            float time = 0;
+            float value = time + Time.deltaTime * 0.5f;
+            if (Input.GetKey(KeyCode.LeftShift) && GameManager.Instance.m_rungage.fillAmount > 0)
             {
                 m_dir = new Vector3(h, 0, v) * m_runSpd * Time.deltaTime;
+                GameManager.Instance.m_rungage.fillAmount -= value;
             }
             else
             {
+                GameManager.Instance.m_rungage.fillAmount += value;
                 m_dir = new Vector3(h, 0, v) * m_speed * Time.deltaTime;
             }
             //메인카메라 정면방향 가져와서 그 방향으로 틀기
@@ -39,7 +43,7 @@ public class Player : MonoBehaviour
             camForward.y = 0f;
             transform.LookAt(transform.position + camForward);
             m_dir = transform.TransformDirection(m_dir);
-            m_rigid.MovePosition(m_rigid.position + m_dir);
+            transform.position += m_dir;
         }
     }
     void TurnOnFlash()
@@ -59,11 +63,7 @@ public class Player : MonoBehaviour
     public void SetDie()
     {
         SoundManager.Instance.StopBGM(SoundManager.ClipBGM.creep);
-        SoundManager.Instance.PlaySFX(SoundManager.ClipSFX.GhostScream);
+        SoundManager.Instance.PlaySFX(SoundManager.ClipSFX.Gameover);
         Debug.Log("게임오버");
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.gameObject.name);
     }
 }

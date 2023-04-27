@@ -18,6 +18,7 @@ public class SoundManager : DontDestroy<SoundManager>
     public enum ClipSFX
     {
         DoorOpen,
+        Gameover,
         GhostBreath,
         GhostLowBreath,
         GhostLowSound,

@@ -7,24 +7,37 @@ public class ItemInteract : MonoBehaviour
     public bool m_getFlower;
     public bool m_getNameTag;
     public bool m_getHandflash;
-    public bool m_isdoorOpen;
+    public bool m_flowerDialogFin;
+    public bool m_flashDialogFin;
+    public bool m_nametagDialogFin;
+    public bool m_DoorOpen;
     [SerializeField] GameObject m_flash;
     [SerializeField] Dialog m_dialog;
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            int count = 0;
-            if(m_getFlower)
-            {
-                while(count < m_dialog.m_flowertexts.Length - 1)
-                {
-                    m_dialog.m_textUI.text = m_dialog.m_flowertexts[count];
-                    count++;
-                }
-            }
-        }
+
+    }
+    IEnumerator Coroutin_FlowerText()
+    {
+        yield return new WaitForSeconds(2f);
+        m_dialog.m_textUI.text = m_dialog.m_flowertexts[1];
+        yield return new WaitForSeconds(2f);
+        m_dialog.m_textUI.text = m_dialog.m_flowertexts[2];
+        m_dialog.gameObject.SetActive(false);
+    }
+    IEnumerator Coroutin_NametagText()
+    {
+        yield return new WaitForSeconds(2f);
+        m_dialog.m_textUI.text = m_dialog.m_nametexts[1];
+        yield return new WaitForSeconds(2f);
+        m_dialog.m_textUI.text = m_dialog.m_nametexts[2];
+        m_dialog.gameObject.SetActive(false);
+    }
+    IEnumerator Coroutin_FlashText()
+    {
+        yield return new WaitForSeconds(2f);
+        m_dialog.gameObject.SetActive(false);
     }
     void OnTriggerEnter(Collider other)
     {
@@ -51,44 +64,35 @@ public class ItemInteract : MonoBehaviour
                 m_dialog.ShowFlowerText(0);
                 m_getFlower = true;
                 other.gameObject.SetActive(false);
+                StartCoroutine("Coroutin_FlowerText");
             }
         }
         if (other.CompareTag("Nametag"))
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                m_dialog.ShowNameTagText(0);
                 m_getNameTag = true;
                 other.gameObject.SetActive(false);
+                StartCoroutine("Coroutin_NametagText");
             }
         }
         if (other.CompareTag("Handflash"))
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                
+                m_dialog.ShowFlashText(0);
                 m_getHandflash = true;
                 other.gameObject.SetActive(false);
+                StartCoroutine("Coroutin_FlashText");
             }
         }
-        if (other.CompareTag("Door"))
+        if(other.CompareTag("Door"))
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                if (!m_isdoorOpen)
-                {
-                    other.transform.position = new Vector3(other.transform.position.x + 3, other.transform.position.y, other.transform.position.z);
-                    m_isdoorOpen = true;
-                }
-                else
-                {
-                    other.transform.position = new Vector3(other.transform.position.x - 3, other.transform.position.y, other.transform.position.z);
-                    m_isdoorOpen = false;
-                }
+                other.gameObject.transform.position = new Vector3(other.transform.position.x + 3, other.transform.position.y, other.transform.position.z);
             }
         }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        Debug.Log("상호작용 범위 벗어남");
     }
 }

@@ -11,6 +11,7 @@ TagManager:
   - Nametag
   - Handflash
   - Door
+  - Door3-1
   layers:
   - Default
   - TransparentFX

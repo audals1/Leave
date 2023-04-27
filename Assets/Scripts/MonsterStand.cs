@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class MonsterStand : MonoBehaviour
 {
-    public float m_detectDist = 0.01f;//인식거리 이 거리 안으로 들어오면 겜오버
+    public float m_detectDist = 1f;//인식거리 이 거리 안으로 들어오면 겜오버
     [SerializeField] Player m_player;
     [SerializeField] Camera m_ghostCam;
     [SerializeField] GameObject m_ghostLight;
+
     void Update()
     {
-        if(FindTarget(m_player.transform.position))
+        if (FindTarget(m_player.transform.position))
         {
             m_ghostCam.gameObject.SetActive(true);
             m_ghostLight.gameObject.SetActive(true);
-            m_player.SetDie();
         }
     }
     bool FindTarget(Vector3 target)
@@ -28,7 +28,17 @@ public class MonsterStand : MonoBehaviour
         {
             if (hit.collider.CompareTag("Player")) //Player 맞았으면 트루반환
                 return true;
+            StartCoroutine("Coroutin_Die");
         }
         return false; //배경 맞은경우
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            m_ghostCam.gameObject.SetActive(true);
+            m_ghostLight.gameObject.SetActive(true);
+            m_player.SetDie();
+        }
     }
 }
