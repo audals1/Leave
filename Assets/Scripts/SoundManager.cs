@@ -39,6 +39,11 @@ public class SoundManager : DontDestroy<SoundManager>
         m_audio[(int)AudioType.BGM].clip = m_bgmClips[(int)bgm];
         m_audio[(int)AudioType.BGM].Play();
     }
+    public void StopBGM(ClipBGM bgm)
+    {
+        m_audio[(int)AudioType.BGM].clip = m_bgmClips[(int)bgm];
+        m_audio[(int)AudioType.BGM].Stop();
+    }
     IEnumerator Coroutine_CheckPlaySFX(ClipSFX sfx, float time)
     {
         yield return new WaitForSeconds(time);

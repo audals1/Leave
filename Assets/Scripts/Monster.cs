@@ -30,8 +30,10 @@ public class Monster : MonoBehaviour
     protected bool m_isPatrol;
 
     [SerializeField] WayPoint[] m_wayPoints;
-    protected int m_currentWayPoint;
+    public int m_currentWayPoint;
     [SerializeField] protected Player m_player;//플레이어객체
+    [SerializeField] GameObject m_ghostCam;
+    [SerializeField] GameObject m_ghostLight;
     protected NavMeshAgent m_navAgent;
     protected Animator m_animator;
     public MonsterState m_state;//enum

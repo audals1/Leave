@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     [SerializeField] GameObject m_fadeImg;
-    [SerializeField] Camera m_mainCam;
     public bool m_introEventFin;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("Croutine_Intro");
+        SoundManager.Instance.PlayBGM(SoundManager.ClipBGM.creep);
     }
     IEnumerator Croutine_Intro()
     {

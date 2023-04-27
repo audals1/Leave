@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float m_runSpd = 10f;
     Vector3 m_dir;
     Rigidbody m_rigid;
+    [SerializeField] GameObject m_flash;
+    [SerializeField] ItemInteract m_itemInteract;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        TurnOnFlash();
     }
     void Move()
     {
@@ -37,7 +40,30 @@ public class Player : MonoBehaviour
             transform.LookAt(transform.position + camForward);
             m_dir = transform.TransformDirection(m_dir);
             m_rigid.MovePosition(m_rigid.position + m_dir);
-            //transform.Translate(m_dir);
         }
+    }
+    void TurnOnFlash()
+    {
+        if(Input.GetKeyDown(KeyCode.L) && m_itemInteract.m_getHandflash)
+        {
+            if(m_flash.activeInHierarchy)
+            {
+                m_flash.SetActive(false);
+            }
+            else
+            {
+                m_flash.SetActive(true);
+            }
+        }
+    }
+    public void SetDie()
+    {
+        SoundManager.Instance.StopBGM(SoundManager.ClipBGM.creep);
+        SoundManager.Instance.PlaySFX(SoundManager.ClipSFX.GhostScream);
+        Debug.Log("게임오버");
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
     }
 }

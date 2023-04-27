@@ -7,7 +7,6 @@ using TMPro;
 public class Dialog : SingletonMonoBehaviour<Dialog>
 {
     [TextArea] public string[] m_introtexts;
-    [TextArea] public string[] m_texts;
     [TextArea] public string[] m_nametexts;
     [TextArea] public string[] m_flowertexts;
     public TextMeshProUGUI m_textUI;
@@ -23,8 +22,6 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
     {
         ShowIntroText(0);
         IntroDialog();
-        FlowerText();
-        NameTagText();
     }
     public void ShowIntroText(int index)
     {
@@ -52,22 +49,19 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
             }
         }
     }
-    public void ShowText()
+    public void ShowFlowerText(int index)
     {
-        m_textUI.text = m_texts[m_itemtextIndex];
+        m_textUI.gameObject.SetActive(true);
+        m_textUI.text = m_flowertexts[index];
     }
-    public void FlowerText()
+    public void ShowFlashText(int index)
     {
-        for (int i = 0; i < m_flowertexts.Length; i++)
-        {
-            m_textUI.text = m_flowertexts[i];
-        }
+        m_textUI.gameObject.SetActive(true);
+        m_textUI.text = m_flowertexts[index];
     }
-    public void NameTagText()
+    public void ShowNameTagText(int index)
     {
-        for (int i = 0; i < m_flowertexts.Length; i++)
-        {
-            m_textUI.text = m_nametexts[i];
-        }
+        m_textUI.gameObject.SetActive(true);
+        m_textUI.text = m_nametexts[index];
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Flower
   - Nametag
   - Handflash
+  - Door
   layers:
   - Default
   - TransparentFX
