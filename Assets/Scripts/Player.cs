@@ -1,63 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
 {
-    public float m_speed = 5f;
-    public float m_runSpd = 10f;
-    Vector3 m_dir;
-    Rigidbody m_rigid;
-    [SerializeField] GameObject m_flash;
-    [SerializeField] ItemInteract m_itemInteract;
-    // Start is called before the first frame update
+    public float _speed = 5f;
+    public float _runSpd = 10f;
+    Vector3 _dir;
+    Rigidbody _rigid;
+    GameObject _flash;
+    ItemInteract _itemInteract;
+    GameManager _gameManager;
+    Dialog _dialog;
+
+    public KeyCode flashKeyboard = KeyCode.F;
+
     void Start()
     {
-        m_rigid = GetComponent<Rigidbody>();
+        _flash = GameObject.Find("HandFlash");
+        _itemInteract = FindObjectOfType<ItemInteract>();
+        _rigid = GetComponent<Rigidbody>();
+        _gameManager = FindObjectOfType<GameManager>();
+        _dialog = FindObjectOfType<Dialog>();
+        TurnOnFlash();
     }
     void FixedUpdate()
     {
         Move();
-        TurnOnFlash();
     }
     void Move()
     {
-        if(GameManager.Instance.m_introEventFin && Dialog.Instance.m_introDialogFin)
+        if(_gameManager._introEventFin && _dialog._introDialogFin)
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
             float time = 0;
             float value = time + Time.deltaTime * 0.5f;
-            if (Input.GetKey(KeyCode.LeftShift) && GameManager.Instance.m_rungage.fillAmount > 0)
+            if (Input.GetKey(KeyCode.LeftShift) && _gameManager._rungage.fillAmount > 0)
             {
-                m_dir = new Vector3(h, 0, v) * m_runSpd * Time.deltaTime;
-                GameManager.Instance.m_rungage.fillAmount -= value;
+                _dir = new Vector3(h, 0, v) * _runSpd * Time.deltaTime;
+                _gameManager._rungage.fillAmount -= value;
             }
             else
             {
-                GameManager.Instance.m_rungage.fillAmount += value;
-                m_dir = new Vector3(h, 0, v) * m_speed * Time.deltaTime;
+                _gameManager._rungage.fillAmount += value;
+                _dir = new Vector3(h, 0, v) * _speed * Time.deltaTime;
             }
             //메인카메라 정면방향 가져와서 그 방향으로 틀기
             var camForward = Camera.main.transform.forward;
             camForward.y = 0f;
             transform.LookAt(transform.position + camForward);
-            m_dir = transform.TransformDirection(m_dir);
-            transform.position += m_dir;
+            _dir = transform.TransformDirection(_dir);
+            transform.position += _dir;
         }
     }
-    void TurnOnFlash()
+    async void TurnOnFlash()
     {
-        if(Input.GetKeyDown(KeyCode.L) && m_itemInteract.m_getHandflash)
+        if (!_itemInteract._getHandflash) return;
+        while (!Input.GetKeyDown(flashKeyboard)) await Task.Yield();
         {
-            if(m_flash.activeInHierarchy)
+            if(_flash.activeInHierarchy)
             {
-                m_flash.SetActive(false);
+                _flash.SetActive(false);
             }
             else
             {
-                m_flash.SetActive(true);
+                _flash.SetActive(true);
             }
+            TurnOnFlash();
         }
     }
     public void SetDie()

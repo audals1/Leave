@@ -4,40 +4,36 @@ using UnityEngine;
 
 public class ItemInteract : MonoBehaviour
 {
-    public bool m_getFlower;
-    public bool m_getNameTag;
-    public bool m_getHandflash;
-    public bool m_flowerDialogFin;
-    public bool m_flashDialogFin;
-    public bool m_nametagDialogFin;
-    public bool m_DoorOpen;
-    [SerializeField] GameObject m_flash;
-    [SerializeField] Dialog m_dialog;
+    public bool _getFlower;
+    public bool _getNameTag;
+    public bool _getHandflash;
+    public bool _flowerDialogFin;
+    public bool _flashDialogFin;
+    public bool _nametagDialogFin;
+    public bool _DoorOpen;
+    [SerializeField] GameObject _flash;
+    [SerializeField] Dialog _dialog;
 
-    void Update()
-    {
-
-    }
     IEnumerator Coroutin_FlowerText()
     {
         yield return new WaitForSeconds(2f);
-        m_dialog.m_textUI.text = m_dialog.m_flowertexts[1];
+        _dialog._textUI.text = _dialog._flowertexts[1];
         yield return new WaitForSeconds(2f);
-        m_dialog.m_textUI.text = m_dialog.m_flowertexts[2];
-        m_dialog.gameObject.SetActive(false);
+        _dialog._textUI.text = _dialog._flowertexts[2];
+        _dialog.gameObject.SetActive(false);
     }
     IEnumerator Coroutin_NametagText()
     {
         yield return new WaitForSeconds(2f);
-        m_dialog.m_textUI.text = m_dialog.m_nametexts[1];
+        _dialog._textUI.text = _dialog._nametexts[1];
         yield return new WaitForSeconds(2f);
-        m_dialog.m_textUI.text = m_dialog.m_nametexts[2];
-        m_dialog.gameObject.SetActive(false);
+        _dialog._textUI.text = _dialog._nametexts[2];
+        _dialog.gameObject.SetActive(false);
     }
     IEnumerator Coroutin_FlashText()
     {
         yield return new WaitForSeconds(2f);
-        m_dialog.gameObject.SetActive(false);
+        _dialog.gameObject.SetActive(false);
     }
     void OnTriggerEnter(Collider other)
     {
@@ -61,8 +57,8 @@ public class ItemInteract : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                m_dialog.ShowFlowerText(0);
-                m_getFlower = true;
+                _dialog.ShowFlowerText(0);
+                _getFlower = true;
                 other.gameObject.SetActive(false);
                 StartCoroutine("Coroutin_FlowerText");
             }
@@ -71,8 +67,8 @@ public class ItemInteract : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                m_dialog.ShowNameTagText(0);
-                m_getNameTag = true;
+                _dialog.ShowNameTagText(0);
+                _getNameTag = true;
                 other.gameObject.SetActive(false);
                 StartCoroutine("Coroutin_NametagText");
             }
@@ -81,8 +77,8 @@ public class ItemInteract : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                m_dialog.ShowFlashText(0);
-                m_getHandflash = true;
+                _dialog.ShowFlashText(0);
+                _getHandflash = true;
                 other.gameObject.SetActive(false);
                 StartCoroutine("Coroutin_FlashText");
             }

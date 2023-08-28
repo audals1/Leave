@@ -6,18 +6,23 @@ using TMPro;
 
 public class Dialog : SingletonMonoBehaviour<Dialog>
 {
-    [TextArea] public string[] m_introtexts;
-    [TextArea] public string[] m_nametexts;
-    [TextArea] public string[] m_flowertexts;
-    [TextArea] public string[] m_flashtexts;
-    public TextMeshProUGUI m_textUI;
-    [SerializeField] int m_textIndex;
-    public int m_itemtextIndex;
-    [SerializeField] ItemInteract m_item;
-    public bool m_isDaloging;
-    public bool m_introDialogFin;
-    public bool m_DalogFin;
+    GameManager _gameManager;
+    [TextArea] public string[] _introtexts;
+    [TextArea] public string[] _nametexts;
+    [TextArea] public string[] _flowertexts;
+    [TextArea] public string[] _flashtexts;
+    public TextMeshProUGUI _textUI;
+    [SerializeField] int _textIndex;
+    public int _itemtextIndex;
+    public bool _isDaloging;
+    public bool _introDialogFin;
+    public bool _DalogFin;
 
+    void Start()
+    {
+        _textUI = FindObjectOfType<TextMeshProUGUI>();
+        _gameManager = FindObjectOfType<GameManager>();
+    }
 
     void Update()
     {
@@ -26,43 +31,43 @@ public class Dialog : SingletonMonoBehaviour<Dialog>
     }
     public void ShowIntroText(int index)
     {
-        if(GameManager.Instance.m_introEventFin && !m_introDialogFin)
+        if(_gameManager._introEventFin && !_introDialogFin)
         {
-            m_textUI.text = m_introtexts[m_textIndex];
-            m_textUI.gameObject.SetActive(true);
+            _textUI.text = _introtexts[_textIndex];
+            _textUI.gameObject.SetActive(true);
         }
     }
     public void IntroDialog()
     {
-        if (GameManager.Instance.m_introEventFin && Input.GetKeyDown(KeyCode.Space) && !m_introDialogFin)
+        if (_gameManager._introEventFin && Input.GetKeyDown(KeyCode.Space) && !_introDialogFin)
         {
-            if (m_textIndex < 4) // 대화창 진행중
+            if (_textIndex < _introtexts.Length - 1) // 대화창 진행중
             {
-                m_isDaloging = true;
-                m_textIndex++;
-                m_textUI.text = m_introtexts[m_textIndex];
+                _isDaloging = true;
+                _textIndex++;
+                _textUI.text = _introtexts[_textIndex];
             }
             else //대화창 다 돌음
             {
-                m_introDialogFin = true;
-                m_isDaloging = false;
-                m_textUI.gameObject.SetActive(false);
+                _introDialogFin = true;
+                _isDaloging = false;
+                _textUI.gameObject.SetActive(false);
             }
         }
     }
     public void ShowFlowerText(int index)
     {
-        m_textUI.gameObject.SetActive(true);
-        m_textUI.text = m_flowertexts[index];
+        _textUI.gameObject.SetActive(true);
+        _textUI.text = _flowertexts[index];
     }
     public void ShowFlashText(int index)
     {
-        m_textUI.gameObject.SetActive(true);
-        m_textUI.text = m_flowertexts[index];
+        _textUI.gameObject.SetActive(true);
+        _textUI.text = _flowertexts[index];
     }
     public void ShowNameTagText(int index)
     {
-        m_textUI.gameObject.SetActive(true);
-        m_textUI.text = m_nametexts[index];
+        _textUI.gameObject.SetActive(true);
+        _textUI.text = _nametexts[index];
     }
 }

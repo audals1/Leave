@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 
-public class PressStart : MonoBehaviour
+public class Title : MonoBehaviour
 {
-    [SerializeField] GameObject _introText;
+    [SerializeField] TitleText _titleText;
     public bool _isPresskey;
+
+    void Awake()
+    {
+        _titleText = FindObjectOfType<TitleText>();
+    }
 
     void Start()
     {
@@ -23,9 +28,9 @@ public class PressStart : MonoBehaviour
         SoundManager.Instance.PlaySFX(SoundManager.ClipSFX.DoorOpen);
         for (int i = 0; i < 3; i++)
         {
-            _introText.SetActive(false);
+            _titleText.gameObject.SetActive(false);
             await Task.Delay(300);
-            _introText.SetActive(true);
+            _titleText.gameObject.SetActive(true);
             await Task.Delay(300);
         }
         await Task.Yield();

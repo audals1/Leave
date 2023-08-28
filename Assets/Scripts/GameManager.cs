@@ -1,75 +1,91 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
-    [SerializeField] GameObject m_fadeImg;
-    public bool m_introEventFin;
-    public Image m_rungage;
-    public GameObject m_inven;
-    public GameObject m_uiFlower;
-    public GameObject m_uiFlash;
-    public GameObject m_uiNametag;
-    [SerializeField] ItemInteract m_interact;
-    // Start is called before the first frame update
+    GameObject _fadeImg;
+    public bool _introEventFin;
+    public Image _rungage;
+    public GameObject _inven;
+    public GameObject _uiFlower;
+    public GameObject _uiFlash;
+    public GameObject _uiNametag;
+    [SerializeField] ItemInteract _interact;
+
+
+    void Awake()
+    {
+        _fadeImg = GameObject.Find("Fade");
+        _rungage = GameObject.Find("Rungage").GetComponent<Image>();
+        _interact = FindObjectOfType<ItemInteract>();
+        _uiFlash = GameObject.Find("Flashlight");
+        _uiFlower = GameObject.Find("Dryfrower");
+        _uiNametag = GameObject.Find("NameTag");
+        _inven = GameObject.Find("ItemInven");
+    }
+
     void Start()
     {
+        _inven.SetActive(false);
+        _fadeImg.gameObject.SetActive(false);
         StartCoroutine("Croutine_Intro");
         SoundManager.Instance.PlayBGM(SoundManager.ClipBGM.creep);
-    }
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            CallPopup();
-            FillInven();
-        }
     }
     IEnumerator Croutine_Intro()
     {
         //´«±ôºýÀÓ
         yield return new WaitForSeconds(1f);
-        m_fadeImg.gameObject.SetActive(false);
+        _fadeImg.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
-        m_fadeImg.gameObject.SetActive(true);
+        _fadeImg.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.6f);
-        m_fadeImg.gameObject.SetActive(false);
+        _fadeImg.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.6f);
-        m_fadeImg.gameObject.SetActive(true);
+        _fadeImg.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.3f);
-        m_fadeImg.gameObject.SetActive(false);
+        _fadeImg.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.3f);
-        m_fadeImg.gameObject.SetActive(true);
+        _fadeImg.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.2f);
-        m_fadeImg.gameObject.SetActive(false);
-        m_introEventFin = true;
+        _fadeImg.gameObject.SetActive(false);
+        _introEventFin = true;
     }
-    void CallPopup()
+
+    async void CallPopup()
     {
-        if(!m_inven.activeInHierarchy)
+        while (!Input.GetKeyDown(KeyCode.I))
         {
-            m_inven.SetActive(true);
+            await Task.Yield();
+        }
+
+        if (!_inven.activeInHierarchy)
+        {
+            _inven.SetActive(true);
         }
         else
         {
-            m_inven.SetActive(false);
+            _inven.SetActive(false);
         }
+
+        CallPopup();
     }
+
     void FillInven()
     {
-        if(m_interact.m_getFlower)
+        if(_interact._getFlower)
         {
-            m_uiFlower.SetActive(true);
+            _uiFlower.SetActive(true);
         }
-        if(m_interact.m_getHandflash)
+        if(_interact._getHandflash)
         {
-            m_uiFlash.SetActive(true);
+            _uiFlash.SetActive(true);
         }
-        if (m_interact.m_getNameTag)
+        if (_interact._getNameTag)
         {
-            m_uiNametag.SetActive(true);
+            _uiNametag.SetActive(true);
         }
     }
 }
