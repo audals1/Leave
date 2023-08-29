@@ -13,7 +13,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public GameObject _uiFlower;
     public GameObject _uiFlash;
     public GameObject _uiNametag;
-    [SerializeField] ItemInteract _interact;
+    TaskCompletionSource<bool> _iKeyPressedTask;
+    ItemInteract _interact;
 
 
     void Awake()
@@ -33,6 +34,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         _fadeImg.gameObject.SetActive(false);
         StartCoroutine("Croutine_Intro");
         SoundManager.Instance.PlayBGM(SoundManager.ClipBGM.creep);
+        CallPopup();
+    }
+
+    void Update()
+    {
+        
     }
     IEnumerator Croutine_Intro()
     {
@@ -56,22 +63,38 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     async void CallPopup()
     {
+        _iKeyPressedTask = new TaskCompletionSource<bool>();
+
+        while (!_iKeyPressedTask.Task.IsCompleted)
+        {
+            await Task.Yield();
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                CheckInvenActive();
+                _iKeyPressedTask.SetResult(true);
+
+                _iKeyPressedTask = new TaskCompletionSource<bool>();
+            }
+        }
+    }
+
+    async void CallPopup2()
+    {
+        
+
         while (!Input.GetKeyDown(KeyCode.I))
         {
             await Task.Yield();
+            if (!_inven.activeInHierarchy)
+                _inven.SetActive(true);
+            else
+                _inven.SetActive(false);
         }
-
-        if (!_inven.activeInHierarchy)
-        {
-            _inven.SetActive(true);
-        }
-        else
-        {
-            _inven.SetActive(false);
-        }
-
-        CallPopup();
+        await Task.Yield();
+        CallPopup2();
     }
+
 
     void FillInven()
     {
@@ -87,5 +110,13 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         {
             _uiNametag.SetActive(true);
         }
+    }
+
+    void CheckInvenActive()
+    {
+        if (!_inven.activeInHierarchy)
+            _inven.SetActive(true);
+        else
+            _inven.SetActive(false);
     }
 }

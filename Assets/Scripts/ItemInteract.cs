@@ -11,8 +11,12 @@ public class ItemInteract : MonoBehaviour
     public bool _flashDialogFin;
     public bool _nametagDialogFin;
     public bool _DoorOpen;
-    [SerializeField] GameObject _flash;
-    [SerializeField] Dialog _dialog;
+    Dialog _dialog;
+
+    void Start()
+    {
+        _dialog = FindObjectOfType<Dialog>();        
+    }
 
     IEnumerator Coroutin_FlowerText()
     {
