@@ -13,6 +13,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public GameObject _uiFlower;
     public GameObject _uiFlash;
     public GameObject _uiNametag;
+    List<float> _waitTimes = new List<float> { 1f, 1f, 0.6f, 0.6f, 0.3f, 0.3f, 0.2f, 0.2f };
     TaskCompletionSource<bool> _iKeyPressedTask;
     ItemInteract _interact;
 
@@ -44,20 +45,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     IEnumerator Croutine_Intro()
     {
         //´«±ôºýÀÓ
-        yield return new WaitForSeconds(1f);
-        _fadeImg.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
-        _fadeImg.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.6f);
-        _fadeImg.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.6f);
-        _fadeImg.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.3f);
-        _fadeImg.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.3f);
-        _fadeImg.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.2f);
-        _fadeImg.gameObject.SetActive(false);
+        for (int i = 0; i < _waitTimes.Count; i++)
+        {
+            yield return new WaitForSeconds(_waitTimes[i]);
+            _fadeImg.SetActive(!_fadeImg.activeSelf);
+        }
         _introEventFin = true;
     }
 
@@ -79,21 +71,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
     }
 
-    async void CallPopup2()
-    {
-        
-
-        while (!Input.GetKeyDown(KeyCode.I))
-        {
-            await Task.Yield();
-            if (!_inven.activeInHierarchy)
-                _inven.SetActive(true);
-            else
-                _inven.SetActive(false);
-        }
-        await Task.Yield();
-        CallPopup2();
-    }
 
 
     void FillInven()

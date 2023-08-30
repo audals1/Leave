@@ -15225,8 +15225,6 @@ MonoBehaviour:
   _flashDialogFin: 0
   _nametagDialogFin: 0
   _DoorOpen: 0
-  _flash: {fileID: 0}
-  _dialog: {fileID: 0}
 --- !u!65 &570671329
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23956,7 +23954,6 @@ MonoBehaviour:
   _uiFlower: {fileID: 0}
   _uiFlash: {fileID: 0}
   _uiNametag: {fileID: 0}
-  _interact: {fileID: 0}
 --- !u!4 &911284840
 Transform:
   m_ObjectHideFlags: 0
